@@ -1,6 +1,7 @@
 from rich.console import Console
 from rich.prompt import Prompt
 import random
+import readline
 
 c = Console()
 p = Prompt()
@@ -59,22 +60,26 @@ def render_word(aword: str):
     return final, word1 == word2
 
 
-for i in range(6):
-   # word = input(str(i + 1) + " > ")
-    while True:
-        aword = p.ask("GUESS")
-        if (len(aword) != len(word)):
-            c.print("Invalid Word Length!")
-        else:
-            if not aword.lower() in words:
-                c.print("Not a word")
-
+try:
+    for i in range(6):
+        # word = input(str(i + 1) + " > ")
+        while True:
+            aword = input("GUESS > ")
+            if (len(aword) != len(word)):
+                c.print("Invalid Word Length!")
             else:
-                rendered_word, victory = render_word(aword)
-                c.print(rendered_word)
-                if victory:
-                    c.print("You Win!")
-                    exit()
+                if not aword.lower() in words:
+                    c.print("Not a word")
 
+                else:
+                    rendered_word, victory = render_word(aword)
+                    c.print(rendered_word)
+
+                    if victory:
+                        c.print("You Win!")
+                        exit()
+                    break
+except KeyboardInterrupt:
+    pass
 c.print("You Lose")
 c.print("Word was " + word.capitalize())
