@@ -1,14 +1,26 @@
 from rich.console import Console
 from rich.prompt import Prompt
+import random
 
 c = Console()
 p = Prompt()
 
-word = "tooth"
+word = None
+words = None
 
-c.print("Hello World!")
+with open("words.txt") as f:
+    words = f.read().split("\n")
+    word = random.choice(words)
 
-c.print("[#FFFFFF on #404040] W  O  R [/#FFFFFF on #404040][#FFFFFF on #facc25] D [/#FFFFFF on #facc25][#FFFFFF on #59ff61] S [/#FFFFFF on #59ff61]")
+
+# c.print("Hello World!")
+
+# c.print("[#FFFFFF on #404040] W  O  R [/#FFFFFF on #404040][#FFFFFF on #facc25] D [/#FFFFFF on #facc25][#FFFFFF on #59ff61] S [/#FFFFFF on #59ff61]")
+
+c.print("Pyrdle", style="bold")
+c.print("By Wooferz", style="italic")
+
+print("\n\n\n")
 
 
 def render_word(aword: str):
@@ -49,14 +61,20 @@ def render_word(aword: str):
 
 for i in range(6):
    # word = input(str(i + 1) + " > ")
-    aword = p.ask("GUESS")
-    if (len(aword) != len(word)):
-        c.print("Invalid Word!")
-        exit()
-    rendered_word, victory = render_word(aword)
-    c.print(rendered_word)
-    if victory:
-        c.print("You Win!")
-        exit()
+    while True:
+        aword = p.ask("GUESS")
+        if (len(aword) != len(word)):
+            c.print("Invalid Word Length!")
+        else:
+            if not aword.lower() in words:
+                c.print("Not a word")
+
+            else:
+                rendered_word, victory = render_word(aword)
+                c.print(rendered_word)
+                if victory:
+                    c.print("You Win!")
+                    exit()
 
 c.print("You Lose")
+c.print("Word was " + word.capitalize())
