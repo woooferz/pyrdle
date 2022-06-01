@@ -4,7 +4,7 @@ from rich.prompt import Prompt
 c = Console()
 p = Prompt()
 
-word = "world"
+word = "tooth"
 
 c.print("Hello World!")
 
@@ -18,13 +18,45 @@ def render_word(aword: str):
     word1 = word1.upper()
     word2 = word2.upper()
 
-    c.print(word1, word2, sep=", ")
+    final = ""
+
+    occ = {}
+
+    for i in word2:
+        try:
+            occ[i] = occ[i] + 1
+        except KeyError:
+            occ[i] = 1
+
+    for l1, l2 in zip(word1, word2):
+        if l1 == l2:
+            occ[l2] -= 1
+
+    for l1, l2 in zip(word1, word2):
+        if l1 == l2:
+            final = final + "[#FFFFFF on #59ff61] " + \
+                l1 + " [/#FFFFFF on #59ff61]"
+        elif l1 in word2 and occ[l1] > 0:
+            final = final + "[#FFFFFF on #facc25] " + \
+                l1 + " [/#FFFFFF on #facc25]"
+            occ[l1] -= 1
+        else:
+            final = final + "[#FFFFFF on #404040] " + \
+                l1 + " [/#FFFFFF on #404040]"
+
+    return final, word1 == word2
 
 
 for i in range(6):
    # word = input(str(i + 1) + " > ")
-    aword = p.ask(str(i) + " > ")
+    aword = p.ask("GUESS")
     if (len(aword) != len(word)):
         c.print("Invalid Word!")
         exit()
-    c.print(render_word(aword))
+    rendered_word, victory = render_word(aword)
+    c.print(rendered_word)
+    if victory:
+        c.print("You Win!")
+        exit()
+
+c.print("You Lose")
