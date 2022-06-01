@@ -20,6 +20,7 @@ with open("words.txt") as f:
 
 c.print("Pyrdle", style="bold")
 c.print("By Wooferz", style="italic")
+c.print(f"To play simply write a {str(len(word))} letter word.")
 
 print("\n\n\n")
 
