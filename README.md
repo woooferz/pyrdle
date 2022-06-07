@@ -6,7 +6,7 @@ Wordle in Python! :)
 
 ```sh
 git clone https://github.com/woooferz/pyrdle.git
-cd https://github.com/woooferz/pyrdle.git
+cd pyrdle
 pip install -r requirements.txt
 python3 .
 ```
